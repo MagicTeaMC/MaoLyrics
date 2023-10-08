@@ -18,6 +18,8 @@ package com.jagrosh.jlyrics;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
@@ -139,7 +141,9 @@ public class LyricsClient
             }
 
             return futureToken.thenCompose(token -> {
-                String searchUrl = String.format(config.getString("lyrics." + source + ".search.url"), search, token);
+                try {
+                    String encodedSearch = URLEncoder.encode(search, StandardCharsets.UTF_8.toString());  // URL encode
+                    String searchUrl = String.format(config.getString("lyrics." + source + ".search.url"), encodedSearch, token);
 
                 return CompletableFuture.supplyAsync(() ->
                 {
@@ -178,6 +182,11 @@ public class LyricsClient
                         return null;
                     }
                 }, executor);
+                }
+                catch(IOException e)
+                {
+                    return CompletableFuture.completedFuture(null);
+                }
             });
         }
         catch(ConfigException ex)

@@ -36,8 +36,8 @@ System.out.println(lyrics.getContent()); // As he came into the window ...
 
 ```xml
 <dependency>
-	   <groupId>com.github.jagrosh</groupId>
-	   <artifactId>JLyrics</artifactId>
+	   <groupId>com.github.MagicTeaMC</groupId>
+	   <artifactId>MaoLyrics</artifactId>
 	   <version>master-SNAPSHOT</version>
 </dependency>
 ```
